@@ -1,0 +1,815 @@
+﻿<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Divya Furniture - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 20px 20px 40px 20px;
+            font-family: 'Roboto', sans-serif;
+            background-color: #1A4252;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #0f2a38;
+            padding: 10px 20px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title-container {
+            text-align: center;
+        }
+
+        .menu-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 36px;
+            color: #ffcc00;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #ffcc00;
+            margin-top: 5px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+            .search-bar input, .search-bar select {
+                flex: 1;
+                padding: 8px 12px;
+                border-radius: 4px;
+                border: none;
+                font-size: 16px;
+            }
+
+            .search-bar input {
+                padding-right: 40px;
+            }
+
+            .search-bar .fa-search {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #888;
+                pointer-events: none;
+                font-size: 18px;
+            }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+            nav a {
+                color: #ffcc00;
+                text-decoration: none;
+                font-weight: 700;
+                font-size: 16px;
+                cursor: pointer;
+                transition: color 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+                nav a:hover {
+                    color: #ffa500;
+                }
+
+        main {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 20px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+        }
+
+        .item-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+            .item-card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px #ffcc00;
+            }
+
+        .item-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #333;
+        }
+
+        .item-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 6px;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            max-width: 1000px;
+            width: 100%;
+            background-color: #222;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+            .modal-content img {
+                width: 100%;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 8px;
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: border-color 0.3s ease;
+            }
+
+                .modal-content img:hover {
+                    border-color: #ffcc00;
+                }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #ffcc00;
+            cursor: pointer;
+            font-weight: bold;
+            user-select: none;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            z-index: 1100;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    </header>
+    <div class="toast" id="toast"></div>
+
+
+    <div style="text-align:right;padding:10px;">
+        <label style="color:#FFCC00;font-weight:bold;">
+            <input type="checkbox" id="modeSwitch" onchange="toggleTheme()" style="transform: scale(1.2);margin-right:8px;">
+            Light Mode
+        </label>
+    </div>
+    <script>function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  }
+
+  window.onload = function() {
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('modeSwitch').checked = true;
+    }
+  };</script>
+
+    <script>const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);</script>
+
+
+    <header>
+        <div class="title-container">
+            <h1 class="menu-title">Divya Furniture</h1>
+            <div class="subtitle">We Make Best</div>
+        </div>
+        <div class="search-bar">
+            <input aria-label="Search furniture" placeholder="Search furniture..." type="search" />
+            <select aria-label="Select furniture type">
+                <option value="">All Types</option>
+                <option value="beds">Beds</option>
+                <option value="sofas">Sofas</option>
+                <option value="dining-tables">Dining Tables</option>
+                <option value="bookshelves">Book Shelves</option>
+                <option value="chest-of-drawers">Chest of Drawers</option>
+                <option value="side-tables">Side Tables</option>
+            </select>
+        </div>
+        <nav>
+            <a href="#">Menu</a>
+            <a href="#">Sign In</a>
+            <a href="#" style="display:flex; align-items:center; gap:12px;">
+                Contact Us
+                <i class=aria-hidden ="true" style="color:#ffcc00;"></i>
+            </a>
+        </nav>
+    </header>
+    <main>
+        <div class="item-card" id="beds-card" data-type="beds">
+            <img alt="Bed" class="item-image" src="https://storage.googleapis.com/a1aa/image/ea02a31e-a4a7-4ba7-153f-a1a77b412188.jpg" />
+            <div class="item-title">Beds</div>
+        </div>
+        <div class="item-card" id="dining-card" data-type="dining-tables">
+            <img alt="Dining Table" class="item-image" src="https://storage.googleapis.com/a1aa/image/79a9539b-979d-4b8d-eabf-7b5fcdb85f2e.jpg" />
+            <div class="item-title">Dining Tables</div>
+        </div>
+        <div class="item-card" id="sofas-card" data-type="sofas">
+            <img alt="Sofa" class="item-image" src="https://storage.googleapis.com/a1aa/image/9a7cfdf6-7d4d-4ca3-1fcf-82a16855c483.jpg" />
+            <div class="item-title">Sofas</div>
+        </div>
+        <div class="item-card" id="bookshelves-card" data-type="bookshelves">
+            <img alt="Book Shelf" class="item-image" src="https://storage.googleapis.com/a1aa/image/3ff3fbc5-81cf-4725-689e-54a0bc06ebff.jpg" />
+            <div class="item-title">Book Shelves</div>
+        </div>
+        <div class="item-card" id="chest-card" data-type="chest-of-drawers">
+            <img alt="Chest of Drawers" class="item-image" src="https://storage.googleapis.com/a1aa/image/bbf64dda-5409-4685-d735-5686e768cfde.jpg" />
+            <div class="item-title">Chest of Drawers</div>
+        </div>
+        <div class="item-card" id="side-tables-card" data-type="side-tables">
+            <img alt="Side Table" class="item-image" src="https://storage.googleapis.com/a1aa/image/c47992b5-47d9-4f98-6cc5-984c86cdeaeb.jpg" />
+            <div class="item-title">Side Tables</div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" tabindex="-1" aria-hidden="true">
+        <span class="close-btn" aria-label="Close modal">&times;</span>
+        <div class="modal-content" id="modal-content">
+            <!-- Images will be inserted here -->
+        </div>
+    </div>
+
+    <script>const bedsImages = Array.from({length:30}, (_,i) => `https://placehold.co/600x400?text=Bed+${i+1}`);
+    const diningImages = Array.from({length:30}, (_,i) => `https://placehold.co/600x400?text=Dining+Table+${i+1}`);
+    const sofasImages = Array.from({length:30}, (_,i) => `https://placehold.co/600x400?text=Sofa+${i+1}`);
+    const bookshelvesImages = Array.from({length:30}, (_,i) => `https://placehold.co/600x400?text=Book+Shelf+${i+1}`);
+    const chestImages = Array.from({length:30}, (_,i) => `https://placehold.co/600x400?text=Chest+of+Drawers+${i+1}`);
+    const sideTablesImages = Array.from({length:30}, (_,i) => `https://placehold.co/600x400?text=Side+Table+${i+1}`);
+
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modal-content');
+    const closeBtn = modal.querySelector('.close-btn');
+
+    function openModal(images) {
+      modalContent.innerHTML = '';
+      images.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Furniture Image';
+        img.className = 'item-image';
+        modalContent.appendChild(img);
+      });
+      modal.style.display = 'flex';
+      modal.focus();
+    }
+
+    document.getElementById('beds-card').addEventListener('click', () => {
+      openModal(bedsImages);
+    });
+    document.getElementById('dining-card').addEventListener('click', () => {
+      openModal(diningImages);
+    });
+    document.getElementById('sofas-card').addEventListener('click', () => {
+      openModal(sofasImages);
+    });
+    document.getElementById('bookshelves-card').addEventListener('click', () => {
+      openModal(bookshelvesImages);
+    });
+    document.getElementById('chest-card').addEventListener('click', () => {
+      openModal(chestImages);
+    });
+    document.getElementById('side-tables-card').addEventListener('click', () => {
+      openModal(sideTablesImages);
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      modalContent.innerHTML = '';
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        modalContent.innerHTML = '';
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (modal.style.display === 'flex' && e.key === 'Escape') {
+        modal.style.display = 'none';
+        modalContent.innerHTML = '';
+      }
+    });
+
+    // Search filter for types
+    const searchInput = document.querySelector('.search-bar input');
+    const typeSelect = document.querySelector('.search-bar select');
+    const itemCards = document.querySelectorAll('.item-card');
+
+    function filterItems() {
+      const searchText = searchInput.value.toLowerCase();
+      const selectedType = typeSelect.value;
+
+      itemCards.forEach(card => {
+        const title = card.querySelector('.item-title').textContent.toLowerCase();
+        const type = card.getAttribute('data-type');
+
+        const matchesSearch = title.includes(searchText);
+        const matchesType = selectedType === '' || selectedType === type;
+
+        if (matchesSearch && matchesType) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('input', filterItems);
+    typeSelect.addEventListener('change', filterItems);</script>
+
+    <script>const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);</script>
+
+    <script src="script.js"></script>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                </style>
+                <link rel="stylesheet" href="style.css">
+                </head>
+                <body
+<div style="text-align:right;padding:10px;">
+  <label style="color:#FFCC00;font-weight:bold;">
+  </label>
+</div>
+<script>
+  function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  }
+
+  window.onload = function() {
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('modeSwitch').checked = true;
+    }
+  };
+</script>
+
+<script>
+  const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);
+</script>
+
+
+    <div class="gallery">
+    </div>
+            </div>
+
+            <div id="toolbar">
+                <div class="icon-button" id="like-icon">❤️<span id="like-count" class="cart-count">0</span></div>
+                <div class="icon-button" id="cart-icon">🛒<span id="cart-count" class="cart-count">0</span></div>
+            </div>
+
+            <div id="cart-modal"></div>
+            <div id="likes-modal"></div>
+
+            <div class="modal" id="product-modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2 id="modal-title"></h2>
+                    <img id="modal-image" src="" alt="">
+                    <p id="modal-price"></p>
+                    <button onclick="buyNow()">🛍️ Buy Now</button>
+                    <button onclick="addToCartWithAnimation()">🛒 Add to Cart</button>
+                    <button onclick="addToLikes()">❤️ Add to Wishlist</button>
+                    <h3>Related Images:</h3>
+                    <div class="gallery"></div>
+                </div>
+            </div>
+
+            <script>const modal = document.getElementById("product-modal");
+    const cartModal = document.getElementById("cart-modal");
+    const likesModal = document.getElementById("likes-modal");
+    const cartIcon = document.getElementById("cart-icon");
+    const likeIcon = document.getElementById("like-icon");
+    const cartCount = document.getElementById("cart-count");
+    const likeCount = document.getElementById("like-count");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let likes = JSON.parse(localStorage.getItem("likes")) || [];
+    let currentProduct = {};
+
+    document.querySelectorAll(".product").forEach(product => {
+      product.addEventListener("click", () => {
+        const name = product.dataset.name;
+        const price = parseInt(product.dataset.price);
+        currentProduct = { name, price, image: "" };
+        document.getElementById("modal-title").innerText = name;
+        document.getElementById("modal-price").innerText = `₹${price.toLocaleString()}`;
+        document.getElementById("modal-image").style.display = "none";
+        modal.style.display = "flex";
+      });
+    });
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    function buyNow() {
+      alert("Proceeding to buy: " + currentProduct.name);
+    }
+
+    function addToCartWithAnimation() {
+      cart.push({ ...currentProduct });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartModal();
+    }
+
+    function addToLikes() {
+      if (!likes.some(item => item.name === currentProduct.name)) {
+        likes.push({ ...currentProduct });
+        localStorage.setItem("likes", JSON.stringify(likes));
+        updateLikesModal();
+      }
+    }
+
+    cartIcon.addEventListener("click", () => {
+      cartModal.style.display = cartModal.style.display === "block" ? "none" : "block";
+      likesModal.style.display = "none";
+      updateCartModal();
+    });
+
+    likeIcon.addEventListener("click", () => {
+      likesModal.style.display = likesModal.style.display === "block" ? "none" : "block";
+      cartModal.style.display = "none";
+      updateLikesModal();
+    });
+
+    function updateCartModal() {
+      cartCount.innerText = cart.length;
+      if (cart.length === 0) {
+        cartModal.innerHTML = '<h4>Cart Items:</h4><p>No items in cart.</p>';
+        return;
+      }
+      let total = 0;
+      let itemsHtml = '<h4>Cart Items:</h4>';
+      cart.forEach((item, index) => {
+        total += item.price;
+        itemsHtml += `<p>${item.name} - ₹${item.price.toLocaleString()} <span class='remove-button' onclick='removeFromCart(${index})'>✖</span></p>`;
+      });
+      itemsHtml += `<p id='cart-total'>Total: ₹${total.toLocaleString()}</p>`;
+      itemsHtml += `<button id='checkout-button' onclick='checkout()'>Checkout</button>`;
+      cartModal.innerHTML = itemsHtml;
+    }
+
+    function updateLikesModal() {
+      likeCount.innerText = likes.length;
+      if (likes.length === 0) {
+        likesModal.innerHTML = '<h4>Wishlist:</h4><p>No items liked.</p>';
+        return;
+      }
+      let itemsHtml = '<h4>Wishlist:</h4>';
+      likes.forEach((item, index) => {
+        itemsHtml += `<p>${item.name} - ₹${item.price.toLocaleString()} <span class='remove-button' onclick='removeFromLikes(${index})'>✖</span></p>`;
+      });
+      likesModal.innerHTML = itemsHtml;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartModal();
+    }
+
+    function removeFromLikes(index) {
+      likes.splice(index, 1);
+      localStorage.setItem("likes", JSON.stringify(likes));
+      updateLikesModal();
+    }
+
+    function checkout() {
+      alert("Thank you for your purchase!\nTotal Amount: ₹" + cart.reduce((sum, item) => sum + item.price, 0).toLocaleString());
+      cart.length = 0;
+      localStorage.removeItem("cart");
+      updateCartModal();
+    }
+
+    window.onload = () => {
+      updateCartModal();
+      updateLikesModal();
+    };</script>
+
+            <script>const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);</script>
+
+            <script src="script.js"></script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0c2835;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .product {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 200px;
+            padding: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+            .product:hover {
+                transform: scale(1.03);
+            }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+            .modal-content img {
+                display: none;
+            }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #toolbar {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 1200;
+        }
+
+        .icon-button {
+            font-size: 14px;
+            cursor: pointer;
+            background: #0c2835;
+            color: white;
+            padding: 6px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            position: relative;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            font-size: 10px;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #cart-modal, #likes-modal {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1100;
+            max-width: 300px;
+        }
+
+            #cart-modal p, #likes-modal p {
+                margin: 5px 0;
+                font-size: 14px;
+            }
+
+            #cart-modal h4, #likes-modal h4 {
+                margin-top: 0;
+            }
+
+        .remove-button {
+            color: red;
+            cursor: pointer;
+            float: right;
+            margin-left: 10px;
+        }
+
+        #cart-total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #checkout-button {
+            margin-top: 10px;
+            background-color: #333;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+
+    </style>
+    <link rel="stylesheet" href="style.css">
+    </script>
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="text-align:right;padding:10px;">
+        <label style="color:#FFCC00;font-weight:bold;
+  </label>
+    </div>
+    <script>function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  }
+
+  window.onload = function() {
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('modeSwitch').checked = true;
+    }
+  };
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);</script>
+
+
+    <!-- Demo products removed -->
+    <script src="script.js"></script>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h4>Contact Us</h4>
+                <p>Email: danielpattapu7@gmail.com</p>
+                <p>Phone: +91-9876543210</p>
+            </div>
+            <div>
+                <h4>Follow Us</h4>
+                <p>🌐 Facebook | Instagram | Twitter</p>
+            </div>
+        </div>
+        <p class="footer-bottom">© 2025 Divya Furnitures. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+
+

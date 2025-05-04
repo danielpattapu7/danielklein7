@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css"/>
+  <title>Book Shelves - Divya Furniture</title>
+</head>
+<body>
+
+<header>
+  <div class="brand">DIVYA FURNITURES</div>
+  <div class="header-icons">
+    <div class="icon" onclick="window.location.href='wishlist.html'">
+      ❤️ <span class="count" id="wishlist-count">0</span>
+    </div>
+    <div class="icon" onclick="window.location.href='checkout.html'">
+      🛒 <span class="count" id="cart-count">0</span>
+    </div>
+    <button id="theme-toggle" onclick="toggleTheme()">🌗</button>
+  </div>
+</header>
+<div class="toast" id="toast"></div>
+
+
+<div style="text-align:right;padding:10px;">
+  <label style="color:#FFCC00;font-weight:bold;">
+    <input type="checkbox" id="modeSwitch" onchange="toggleTheme()" style="transform: scale(1.2);margin-right:8px;">
+    Light Mode
+  </label>
+</div>
+<script>
+  function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  }
+
+  window.onload = function() {
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('modeSwitch').checked = true;
+    }
+  };
+</script>
+
+<script>
+  const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);
+</script>
+
+
+  <h1>Book Shelves</h1>
+  
+<input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()" 
+style="margin: 20px auto; display: block; padding: 8px; width: 80%; max-width: 400px; border-radius: 5px; border: none;">
+
+<div class="category-container">
+
+    <div class="category-box">
+      <img data-dark="arthur.jpg" data-light="arthur-light.jpg" src="arthur.jpg" alt="Arthur Queen Size Bed" />
+      <h3>Arthur Queen Size Bed</h3>
+      <div class="price-line">
+        <p><strong>₹9989</strong></p>
+        <span class="heart" onclick="addToWishlist('Arthur Queen Size Bed', 9989, 'arthur.jpg')">❤️</span>
+      </div>
+      <p>Size: Queen (78 x 60 inches)</p>
+      <p>Weight: 45 kg</p>
+      <button class="cart-btn" onclick="addToCart('Arthur Queen Size Bed', 9989)">🛒 Add to Cart</button>
+      <button class="buy-btn" onclick="buyNow('Arthur Queen Size Bed', 9989)">🛍️ Buy Now</button>
+    </div>
+
+    <div class="category-box">
+      <img src="storage.jpg" alt="Storage Bed" />
+      <h3>Storage Bed</h3>
+      <div class="price-line">
+        <p><strong>₹14990</strong></p>
+        <span class="heart" onclick="addToWishlist('Storage Bed', 14990, 'storage.jpg')">❤️</span>
+      </div>
+      <p>Size: Queen</p>
+      <p>Weight: 50 kg</p>
+      <button class="cart-btn" onclick="addToCart('Storage Bed', 14990)">🛒 Add to Cart</button>
+      <button class="buy-btn" onclick="buyNow('Storage Bed', 14990)">🛍️ Buy Now</button>
+    </div>
+
+  </div>
+  
+<script>
+  function addToCart(name, cost) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push({ name, cost });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    showToast(name + ' added to cart!');
+  }
+
+  function buyNow(name, cost) {
+    addToCart(name, cost);
+    window.location.href = 'index.html';
+  }
+
+  function addToWishlist(name, cost, image) {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    if (!wishlist.find(item => item.name === name)) {
+      wishlist.push({ name, cost, image });
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      showToast(name + ' added to wishlist!');
+    } else {
+      alert(name + " is already in wishlist.");
+    }
+  }
+</script>
+
+<script>
+  const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);
+</script>
+
+
+
+<style>
+.toast {
+  visibility: hidden;
+  min-width: 220px;
+  margin-left: -110px;
+  background-color: #FFCC00;
+  color: #0F2A38;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 40px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+.toast.show {
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+@keyframes fadein {
+  from {bottom: 20px; opacity: 0;}
+  to {bottom: 40px; opacity: 1;}
+}
+@keyframes fadeout {
+  from {bottom: 40px; opacity: 1;}
+  to {bottom: 20px; opacity: 0;}
+}
+</style>
+<div id="toast" class="toast"></div>
+<script>
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.innerText = message;
+  toast.className = "toast show";
+  setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+}
+</script>
+
+<script>
+  const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);
+</script>
+
+
+
+<script>
+function filterProducts() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const cards = document.querySelectorAll(".category-box");
+
+  cards.forEach(card => {
+    const name = card.querySelector("h3").innerText.toLowerCase();
+    card.style.display = name.includes(input) ? "block" : "none";
+  });
+}
+</script>
+
+<script>
+  const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);
+</script>
+
+
+  <script src="script.js"></script>
+
+<footer>
+  <div class="footer-content">
+    <div>
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a><br>
+      <a href="beds.html">Beds</a><br>
+      <a href="sofas.html">Sofas</a><br>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Contact Us</h4>
+      <p>Email: info@divyafurnitures.com</p>
+      <p>Phone: +91-9876543210</p>
+    </div>
+    <div>
+      <h4>Follow Us</h4>
+      <p>🌐 Facebook | Instagram | Twitter</p>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2025 Divya Furnitures. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
