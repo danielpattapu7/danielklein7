@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Successful - Divya Furniture</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">DIVYA FURNITURES</div>
+  <div class="header-icons">
+    <div class="icon" onclick="window.location.href='wishlist.html'">
+      ❤️ <span class="count" id="wishlist-count">0</span>
+    </div>
+    <div class="icon" onclick="window.location.href='checkout.html'">
+      🛒 <span class="count" id="cart-count">0</span>
+    </div>
+    <button id="theme-toggle" onclick="toggleTheme()">🌗</button>
+  </div>
+</header>
+<div class="toast" id="toast"></div>
+
+
+<div style="text-align:right;padding:10px;">
+  <label style="color:#FFCC00;font-weight:bold;">
+    <input type="checkbox" id="modeSwitch" onchange="toggleTheme()" style="transform: scale(1.2);margin-right:8px;">
+    Light Mode
+  </label>
+</div>
+<script>
+  function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  }
+
+  window.onload = function() {
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('modeSwitch').checked = true;
+    }
+  };
+</script>
+
+<script>
+  const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);
+</script>
+
+
+  <h1>Order Placed Successfully!</h1>
+  <div class="category-container">
+    <div class="category-box" style="width: 350px;">
+      <p>🎉 Thank you for shopping with Divya Furniture.</p>
+      <p>Your order will be delivered soon.</p><ul id='orderItems'></ul>
+      <button class="cart-btn" onclick="window.location.href='index.html'">🏠 Back to Home</button>
+      <button class="buy-btn" onclick="window.location.href='order-history.html'">View Order History</button>
+    </div>
+  </div>
+
+<script>
+  function showOrderSummary() {
+    const order = JSON.parse(localStorage.getItem("lastOrder")) || [];
+    const list = document.getElementById("orderItems");
+    list.innerHTML = order.map(item => 
+      `<li><strong>${item.name}</strong> - ₹${item.cost}</li>`
+    ).join("") || "<li>No recent order found.</li>";
+  }
+
+  window.onload = showOrderSummary;
+</script>
+
+<script>
+  const themeImages = document.querySelectorAll("[data-dark][data-light]");
+  function switchImages() {
+    const isLight = document.body.classList.contains("light-mode");
+    themeImages.forEach(img => {
+      img.src = isLight ? img.getAttribute("data-light") : img.getAttribute("data-dark");
+    });
+  }
+
+  document.getElementById("modeSwitch").addEventListener("change", switchImages);
+  window.addEventListener("load", switchImages);
+</script>
+
+
+  <script src="script.js"></script>
+
+<footer>
+  <div class="footer-content">
+    <div>
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a><br>
+      <a href="beds.html">Beds</a><br>
+      <a href="sofas.html">Sofas</a><br>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Contact Us</h4>
+      <p>Email: info@divyafurnitures.com</p>
+      <p>Phone: +91-9876543210</p>
+    </div>
+    <div>
+      <h4>Follow Us</h4>
+      <p>🌐 Facebook | Instagram | Twitter</p>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2025 Divya Furnitures. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
